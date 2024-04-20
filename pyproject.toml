@@ -11,6 +11,9 @@ torch = "^2.2.2"
 torchvision = "^0.17.2"
 ipykernel = "^6.29.4"
 transformers = "^4.40.0"
+flake8 = "^7.0.0"
+black = "^24.4.0"
+isort = "^5.13.2"
 
 
 [build-system]
