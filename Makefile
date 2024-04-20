@@ -1,4 +1,4 @@
-FOLDERS := transformers_implementation
+FOLDERS := src
 
 format: 
 	isort --profile black "$(FOLDERS)"

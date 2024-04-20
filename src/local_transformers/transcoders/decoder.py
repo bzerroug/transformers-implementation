@@ -1,5 +1,5 @@
 from torch import nn
-from transformers_blocks import (
+from ..transformers_blocks import (
     Embedding,
     FeedForward,
     MultiHeadSelfAttentionQKV,

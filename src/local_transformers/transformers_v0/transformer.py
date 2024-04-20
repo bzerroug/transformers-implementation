@@ -1,4 +1,4 @@
-from transcoders import Encoder, Decoder
+from ..transcoders import Encoder, Decoder
 import torch
 from torch import nn
 
