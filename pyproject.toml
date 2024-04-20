@@ -2,11 +2,15 @@
 name = "transformers-implementation"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["bzerroug@gmail.com"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+torch = "^2.2.2"
+torchvision = "^0.17.2"
+ipykernel = "^6.29.4"
+transformers = "^4.40.0"
 
 
 [build-system]
