@@ -19,7 +19,7 @@ class OneHeadSelfAttentionQKV(nn.Module):
         self.to_keys = nn.Linear(low_dim, low_dim, bias=False)
         self.to_values = nn.Linear(low_dim, low_dim, bias=False)
 
-    def forward(self, Q, K, V):
+    def forward(self, Q, K, V, mask):
         # 3. Reduce dimensionnalité of input
         low_dim_Q = self.to_reduce_dim(Q)
         low_dim_K = self.to_reduce_dim(K)
@@ -32,6 +32,11 @@ class OneHeadSelfAttentionQKV(nn.Module):
 
         # 5. Compute the raw weights w′ij=𝐪iT𝐤j and normalize them
         weights_raw = torch.bmm(query, key.transpose(1, 2))
+
+        # 5.a apply mask
+        if mask is not None:
+            weights_raw = weights_raw.masked_fill_(mask.logical_not(), float("-1e20"))
+
         weights_raw_normalized = torch.div(
             weights_raw, torch.sqrt(torch.tensor(self.low_dim))
         )
@@ -61,11 +66,11 @@ class MultiHeadSelfAttentionQKV(nn.Module):
         # This will be applied after the multi-head self-attention operation.
         self.unifyheads = nn.Linear(k, k)
 
-    def forward(self, Q, K, V):
+    def forward(self, Q, K, V, mask=None):
         # 10. Get all heads elements
         list_to_concat = []
         for one_head in self.list_heads:
-            list_to_concat.append((one_head(Q, K, V),))
+            list_to_concat.append((one_head(Q, K, V, mask),))
 
         # 11. Concatenate all the heads
         multi_heads = sum(list_to_concat, ())
